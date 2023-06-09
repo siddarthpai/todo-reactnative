@@ -4,7 +4,7 @@ import { Svg, Path, Defs, ClipPath, G} from 'react-native-svg'
 import AnimatedStroke from './animated-stroke'
 
 
-//define margins and the svg path for the checkmark box
+//define margins and the svg path for the checkmark box and create the checkbox
 const MARGIN = 10
 const vWidth = 64+MARGIN
 const vHeight = 64+MARGIN

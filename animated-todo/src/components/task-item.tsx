@@ -11,13 +11,13 @@ interface Props{
     isDone: boolean,
     onToggleCheckbox?: ()=> void
 }
-
+//defining properties of the task item
 const TaskItem = (props:Props) => {
     const {isDone, onToggleCheckbox} = props
     const theme = useTheme()
     const highlightColor = themeTools.getColor(
        theme,
-       useColorModeValue('blue.500','blue.400') 
+       useColorModeValue('red.500','yellow.400') 
     )
     const boxStroke = themeTools.getColor(
         theme,
@@ -37,7 +37,8 @@ const TaskItem = (props:Props) => {
     )
 
     return(
-        <HStack alignItems='center' w='full' px={4} py={2} bg={useColorModeValue('warmGray.50','primary.90')}>
+        //define the background of the task item here
+        <HStack alignItems='center' w='full' px={4} py={2} bg={useColorModeValue('warmGray.50','blueGray.900')}>
             <Box width={30} height={30} mr={2}>
                 <Pressable onPress={onToggleCheckbox}>
                     <AnimatedCheckbox highlightColor={highlightColor} checkmarkColor={checkmarkColor} boxOutlineColor={boxStroke} checked={isDone}/>
