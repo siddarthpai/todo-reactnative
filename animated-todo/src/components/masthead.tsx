@@ -19,7 +19,7 @@ const Masthead = ({title, image, children}: Props) =>{
             <Image position="absolute" left={0} right={0} bottom={0} w="full" h="300px" resizeMode="cover" source={image} alt="masthead image"/>
             {children}
             <Box flex={1}/>
-            <Heading color="black" p={5}  size="xl">
+            <Heading color="black" p={5} mb={39} size="xl">
                 {title}
             </Heading>
         </VStack>

@@ -8,7 +8,6 @@ import{
 }from 'native-base'
 import {AntDesign} from '@expo/vector-icons'
 import AnimatedColorBox from '../components/animated-color-box';
-import ThemeToggle from '../components/theme-toggle';
 import shortid from 'shortid';
 import Tasklist from '../components/task-list';
 import { Fab } from 'native-base';
@@ -23,7 +22,7 @@ const initialData= [
     },
     {
         id: shortid.generate(),
-        subject: 'Learn about RNN for Sequence Labeling in NLP',
+        subject: 'Learn about RNN for Sequence Labeling',
         done: false
     },
     {
@@ -94,8 +93,9 @@ export default function MainScreen(){
                 image = {require('../assets/masthead.png')}>
                     <Navbar/>
                 </Masthead>
-            <VStack space={5} alignItems="center" w="full">
+            <VStack flex={1} space={1} bg={useColorModeValue('warmGray.50','primary.900')}mt="-20px" borderTopLeftRadius="20px" borderTopRightRadius="20px" pt="20px">
                 <Tasklist
+                    
                     data={data}
                     onToggleItem={handleToggleTaskItem}
                     onChangeSubject={handleChangeTaskItemSubject}
@@ -104,7 +104,7 @@ export default function MainScreen(){
                     onRemoveItem={handleRemoveItem}
                     editingItemId={editingItemId}
                 />
-                <ThemeToggle></ThemeToggle>
+                
             </VStack>
             <Fab
             position = "absolute"
