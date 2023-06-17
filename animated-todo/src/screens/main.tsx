@@ -13,12 +13,12 @@ import shortid from 'shortid';
 import Tasklist from '../components/task-list';
 import { Fab } from 'native-base';
 import Masthead from '../components/masthead'
-
+import Navbar from '../components/navbar';
 
 const initialData= [ 
     {
         id:shortid.generate(),
-        subject: 'But Roosh food',
+        subject: 'Buy Roosh food',
         done: false
     },
     {
@@ -88,11 +88,12 @@ export default function MainScreen(){
         //we set background color to red if light mode and yellow for dark mode
         
         
-            <AnimatedColorBox 
-             flex={1}  
-             bg={useColorModeValue('warmGray.50','primary.900')}
-             w="full"
-             >
+            <AnimatedColorBox flex={1}  bg={useColorModeValue('warmGray.50','primary.900')}w="full">
+                <Masthead
+                title="What's up Sid!"
+                image = {require('../assets/masthead.png')}>
+                    <Navbar/>
+                </Masthead>
             <VStack space={5} alignItems="center" w="full">
                 <Tasklist
                     data={data}
