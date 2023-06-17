@@ -1,32 +1,134 @@
 import * as React from 'react'
-import { Pressable } from 'react-native';
+import { useState } from 'react';
+import { Pressable, Keyboard} from 'react-native';
 import{
-    Text,
-    Box,
-    Center,
+    Icon,
     VStack,
     useColorModeValue,
 }from 'native-base'
+import {AntDesign} from '@expo/vector-icons'
+import AnimatedColorBox from '../components/animated-color-box';
 import ThemeToggle from '../components/theme-toggle';
-import AnimatedCheckbox from '../components/animated-checkbox';
-import TaskItem from '../components/task-item'
-import AnimatedTaskLabel from '../components/animated-task-label';
+import shortid from 'shortid';
+import Tasklist from '../components/task-list';
+import { Fab } from 'native-base';
+import Masthead from '../components/masthead'
+
+
+const initialData= [ 
+    {
+        id:shortid.generate(),
+        subject: 'But Roosh food',
+        done: false
+    },
+    {
+        id: shortid.generate(),
+        subject: 'Learn about RNN for Sequence Labeling in NLP',
+        done: false
+    },
+    {
+        id: shortid.generate(),
+        subject: 'Fill in Electives form',
+        done: false
+    }
+]
 
 export default function MainScreen(){
     //to enable the checkbox to be ticked.
-    const [checked, setChecked] = React.useState(false)
-    const handlePressCheckbox = React.useCallback(()=>{
-        setChecked(prev => !prev)
-    })
+    const[data,setData]= useState(initialData)
+    const[editingItemId, setEditingItemId] = useState<string | null> (null)
+    const handleToggleTaskItem = React.useCallback(item=>{
+        setData(prevData => {
+            const newData = [... prevData]
+            const index = prevData.indexOf(item)
+            newData[index]= {
+                ...item,
+                done: !item.done
+            }
+            return newData
+        })
+    },[])
+
+    const handleChangeTaskItemSubject = React.useCallback((item, newSubject)=>{
+        setData(prevData => {
+            const newData = [... prevData]
+            const index = prevData.indexOf(item)
+            newData[index]= {
+                ...item,
+                subject: newSubject
+            }
+            return newData
+        })
+    },[])
+
+    const handleFinishEditingTaskItem = React.useCallback(_item => {
+        setEditingItemId(null)
+
+
+    },[])
+    
+    const handlePressTaskItemLabel = React.useCallback(item =>{
+        setEditingItemId(item.id)
+
+    },[])
+
+    const handleRemoveItem = React.useCallback(item => {
+        setData(prevData => {
+            const newData= prevData.filter(i => i !== item)
+            return newData
+        })
+    },[])
+
+    const handleScreenPress = () => {
+        Keyboard.dismiss(); // Dismiss the keyboard when screen is pressed
+    };
 
     return (
         //here we define the color for the dark and light mode
         //we set background color to red if light mode and yellow for dark mode
-        <Center _dark={{bg:'blueGray.900'}} _light={{bg:'blueGray.50'}} px={4} flex={1}>
-            <VStack space={5} alignItems="center">
-                <TaskItem isDone={checked} onToggleCheckbox={handlePressCheckbox} />  
+        
+        
+            <AnimatedColorBox 
+             flex={1}  
+             bg={useColorModeValue('warmGray.50','primary.900')}
+             w="full"
+             >
+            <VStack space={5} alignItems="center" w="full">
+                <Tasklist
+                    data={data}
+                    onToggleItem={handleToggleTaskItem}
+                    onChangeSubject={handleChangeTaskItemSubject}
+                    onFinishEditing={handleFinishEditingTaskItem}
+                    onPressLabel={handlePressTaskItemLabel}
+                    onRemoveItem={handleRemoveItem}
+                    editingItemId={editingItemId}
+                />
                 <ThemeToggle></ThemeToggle>
             </VStack>
-        </Center>
+            <Fab
+            position = "absolute"
+            renderInPortal ={false}
+            size = "sm"
+            icon ={<Icon
+            color = "white"
+            as={<AntDesign name="plus"/>}
+            />}
+            colorScheme={useColorModeValue('red','yellow')}
+            bg={useColorModeValue('red.500','yellow.500')}
+            onPress={()=>{
+                const id = shortid.generate()
+                setData([
+                    {
+                        id,
+                        subject: '',
+                        done:false
+                    },
+                    ...data
+                ])
+                setEditingItemId(id)
+            }}
+            />
+            </AnimatedColorBox>
+        
     )
 }

@@ -6,7 +6,8 @@ const options = {
     semi: false,
     tabWidth: 2,
     trailingComma: 'none',
-    singleAttributePerLine: true
+    singleAttributePerLine: true,
+    printWidth: 100
 }
 
 module.exports=options
